@@ -1,0 +1,19 @@
+name: Build Format Lint Package and Test
+on: 
+  push:
+    branches:
+      - main
+jobs:
+  build-format-lint-package-test:
+    name: Build Format Lint Package and Test
+    runs-on: {{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ windows-latest, ubuntu-latest]
+    steps:
+      - name: Get Source
+        uses: actions/checkout@v2
+      - name: Restore dependencies
+        run: npm ci
+      - name: Build Format Lint Package and Test
+        run: npm run all
