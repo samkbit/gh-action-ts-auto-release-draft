@@ -10,10 +10,10 @@ on:
     branches:
       - main
     paths-ignore:
-      - '**.md'
+      - ['**.md', '**.js.map']
   pull_request:
     paths-ignore:
-      - '**.md'
+      - ['**.md', '**.js.map']
   workflow_dispatch:
 
 jobs:
