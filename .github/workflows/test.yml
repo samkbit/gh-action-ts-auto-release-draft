@@ -7,15 +7,15 @@ on:
 jobs:
   test:
     name: Test
-    runs-on: {{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ windows-latest, ubuntu-latest]
-    steps:
-      - name: Get Source
-        uses: actions/checkout@v2
-      - name: Create release draft for a version tag
-        id: create-release-draft
-        uses: ./
-      - name: Print URL of release draft
-        run: echo ${{ steps.create-release-draft.outputs.release-url}}
+      runs-on: {{ matrix.os }}
+      strategy:
+        matrix:
+          os: [ windows-latest, ubuntu-latest]
+      steps:
+        - name: Get Source
+          uses: actions/checkout@v2
+        - name: Create release draft for a version tag
+          id: create-release-draft
+          uses: ./
+        - name: Print URL of release draft
+          run: echo ${{ steps.create-release-draft.outputs.release-url}}
