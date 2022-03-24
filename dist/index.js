@@ -142,7 +142,9 @@ function getCreatedTag() {
         core.info(`The created reference was not "tag". It was "${github_1.context.payload.ref_type}"`);
         return null;
     }
-    return github_1.context.payload.ref;
+    const tag = github_1.context.payload.ref;
+    core.debug(`Created Tag: ${JSON.stringify(tag)}`);
+    return tag;
 }
 exports.getCreatedTag = getCreatedTag;
 
@@ -261,6 +263,7 @@ function run() {
             const token = core.getInput('repo-token');
             let releaseUrl = "";
             if (tag && (0, version_1.isSemVer)(tag)) {
+                core.info(`Tag "${tag}" is a semver string`);
                 const changeLog = yield (0, cmd_1.getChangeLogAssociatedWithTag)(tag);
                 releaseUrl = yield (0, github_1.createReleaseDraft)(tag, token, changeLog);
             }
