@@ -13,5 +13,8 @@ export function getCreatedTag(): string | null {
         return null
     }
 
-    return context.payload.ref
+    const tag = context.payload.ref
+    core.debug(`Created Tag: ${JSON.stringify(tag)}`)
+
+    return tag
 }
