@@ -7,7 +7,7 @@ import * as version from "./version"
 export async function createReleaseDraft(
     versionTag: string,
     repoToken: string,
-    changeLog: string
+    changeLog: string|null
   ): Promise<string> {
     const octokit = github.getOctokit(repoToken)
     const response = await octokit.rest.repos.createRelease({
@@ -15,13 +15,13 @@ export async function createReleaseDraft(
         repo: github.context.repo.repo,
         tag_name: versionTag, 
         name: version.removePrefix(versionTag),
-        body: markdown.toUnorderedList(changeLog),
+        body: changeLog ? markdown.toUnorderedList(changeLog) : "",
         prerelease: version.isPrerelease(versionTag),
         draft: true
       })
     
       if (response.status !== 201) {
-        throw new Error(`Failed to create draft release: ${response.status}`)
+        throw new Error(`Failed to create release draft: ${response.status}`)
       }
     
       core.info(`Created release draft ${response.data.name}`)
