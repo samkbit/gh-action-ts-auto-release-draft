@@ -4,7 +4,6 @@ import * as core from "@actions/core"
 
 export async function getChangeLogAssociatedWithTag(tag: string): Promise<string|null> {
     const previousVersionTag = await getPreviousVersionTag(tag)
-    core.debug(`previousVersionTag:${previousVersionTag}`) 
     return await getCommitMessagesBetween(previousVersionTag, tag)
 }
 

@@ -42,7 +42,6 @@ const core = __importStar(__nccwpck_require__(2186));
 function getChangeLogAssociatedWithTag(tag) {
     return __awaiter(this, void 0, void 0, function* () {
         const previousVersionTag = yield getPreviousVersionTag(tag);
-        core.debug(`previousVersionTag:${previousVersionTag}`);
         return yield getCommitMessagesBetween(previousVersionTag, tag);
     });
 }
@@ -270,7 +269,6 @@ function run() {
             if (tag && (0, version_1.isSemVer)(tag)) {
                 core.info(`Tag "${tag}" is a semver string`);
                 const changeLog = yield (0, cmd_1.getChangeLogAssociatedWithTag)(tag);
-                core.debug(`changeLog:${changeLog}`);
                 releaseUrl = yield (0, github_1.createReleaseDraft)(tag, token, changeLog);
             }
             core.setOutput("release-url", releaseUrl);
