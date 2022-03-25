@@ -7,7 +7,7 @@ on:
 jobs:
   test:
     name: Test
-    runs-on: ubuntu-latest  #${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ windows-latest, ubuntu-latest ]
@@ -18,7 +18,9 @@ jobs:
         id: create-release-draft
         uses: ./
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN  }}
+          [ 
+            repo-token: ${{ secrets.GITHUB_TOKEN  }}
+          ]
       - name: Print URL of release draft
         if: steps.create-release-draft.outputs.release-url != ''
         run: echo ${{ steps.create-release-draft.outputs.release-url }}
