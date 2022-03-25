@@ -1,4 +1,4 @@
-name: 'Auto Release Draft'
+name: 'Draft New Release'
 description: 'Drafts a GitHub Release with changes introduced by newly created version tag (forked from original author Enrico Campidoglio)'
 author: 'Sam Shrestha'
 inputs:
