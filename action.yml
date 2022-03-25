@@ -1,9 +1,16 @@
 name: 'Auto Release Draft'
 description: 'Drafts a GitHub Release with changes introduced by newly created version tag.'
 author: 'Enrico Campidoglio'
+inputs:
+  repo-token:
+    description: 'The GITHUB_TOKEN used to authenticate to the current repository'
+    required: true
 outputs:
   release-url:
     description: 'URL of GitHub Release that was drafted'
 runs:
   using: 'node16'
   main: 'dist/index.js'
+branding:
+  color: orange
+  icon: tag
