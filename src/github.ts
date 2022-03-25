@@ -9,6 +9,7 @@ export async function createReleaseDraft(
     repoToken: string,
     changeLog: string|null
   ): Promise<string> {
+    core.debug(`repoToken length: ${repoToken.length}`)
     const octokit = github.getOctokit(repoToken)
     const response = await octokit.rest.repos.createRelease({
         owner: github.context.repo.owner,

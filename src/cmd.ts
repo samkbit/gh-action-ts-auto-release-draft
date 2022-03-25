@@ -4,6 +4,7 @@ import * as core from "@actions/core"
 
 export async function getChangeLogAssociatedWithTag(tag: string): Promise<string|null> {
     const previousVersionTag = await getPreviousVersionTag(tag)
+    core.debug(`previousVersionTag:${previousVersionTag}`) 
     return await getCommitMessagesBetween(previousVersionTag, tag)
 }
 
@@ -34,6 +35,7 @@ async function getPreviousVersionTag(tag: string): Promise<string|null> {
         options
     )
 
+    core.debug(`exitCode from git describe call:${exitCode}`) 
     core.debug(`Previous version tag is "${previousVersionTag}"`)  
 
     return exitCode === 0
@@ -65,6 +67,9 @@ async function getCommitMessagesBetween(previousVersionTag: string|null, tag: st
         ], 
         options
     )
+
+    core.debug(`exitCode from git log call:${exitCode}`) 
+    core.debug(`commitMessages:${commitMessages.trim()}`)   
 
     previousVersionTag !== null
         ? core.debug(`Commit messages between version tags "${previousVersionTag}" and "${tag}":\n${commitMessages}`)

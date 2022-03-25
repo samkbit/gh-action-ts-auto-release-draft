@@ -14,6 +14,7 @@ export async function run(): Promise<void> {
     if (tag && isSemVer(tag)) {
       core.info(`Tag "${tag}" is a semver string`)
       const changeLog = await getChangeLogAssociatedWithTag(tag)
+      core.debug(`changeLog:${changeLog}`) 
       releaseUrl = await createReleaseDraft(tag, token, changeLog)
     }
 

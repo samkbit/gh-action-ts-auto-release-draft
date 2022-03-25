@@ -42,6 +42,7 @@ const core = __importStar(__nccwpck_require__(2186));
 function getChangeLogAssociatedWithTag(tag) {
     return __awaiter(this, void 0, void 0, function* () {
         const previousVersionTag = yield getPreviousVersionTag(tag);
+        core.debug(`previousVersionTag:${previousVersionTag}`);
         return yield getCommitMessagesBetween(previousVersionTag, tag);
     });
 }
@@ -67,6 +68,7 @@ function getPreviousVersionTag(tag) {
             "first-parent",
             `${tag}^` // Starts looking from the parent of the specified tag
         ], options);
+        core.debug(`exitCode from git describe call:${exitCode}`);
         core.debug(`Previous version tag is "${previousVersionTag}"`);
         return exitCode === 0
             ? previousVersionTag.trim()
@@ -92,6 +94,8 @@ function getCommitMessagesBetween(previousVersionTag, tag) {
                 ? `${previousVersionTag}..${tag}` // Includes the commits reachable from 'secondTag' but not 'firstTag'
                 : tag // Includes the commits reachable from the specified tag
         ], options);
+        core.debug(`exitCode from git log call:${exitCode}`);
+        core.debug(`commitMessages:${commitMessages.trim()}`);
         previousVersionTag !== null
             ? core.debug(`Commit messages between version tags "${previousVersionTag}" and "${tag}":\n${commitMessages}`)
             : core.debug(`Commit messages from version tag "${tag}":\n${commitMessages}`);
@@ -193,6 +197,7 @@ const markdown = __importStar(__nccwpck_require__(5821));
 const version = __importStar(__nccwpck_require__(8217));
 function createReleaseDraft(versionTag, repoToken, changeLog) {
     return __awaiter(this, void 0, void 0, function* () {
+        core.debug(`repoToken length: ${repoToken.length}`);
         const octokit = github.getOctokit(repoToken);
         const response = yield octokit.rest.repos.createRelease({
             owner: github.context.repo.owner,
@@ -265,6 +270,7 @@ function run() {
             if (tag && (0, version_1.isSemVer)(tag)) {
                 core.info(`Tag "${tag}" is a semver string`);
                 const changeLog = yield (0, cmd_1.getChangeLogAssociatedWithTag)(tag);
+                core.debug(`changeLog:${changeLog}`);
                 releaseUrl = yield (0, github_1.createReleaseDraft)(tag, token, changeLog);
             }
             core.setOutput("release-url", releaseUrl);
